@@ -1,0 +1,80 @@
+<div class="container">
+	<div class="row">
+		<div class="col-sm-6">
+			<h3>
+			TOTAL Perm Cases Certified On {{dol.startDateFrom}}: <span class="badge" ng-bind="dol.total"></span>
+			</h3>
+		</div>
+		<div class="col-sm-6">
+			<br/>
+	    <div  class="input-group">
+	      <input data-provide="datepicker" class="form-control" ng-model="dol.startDateFrom">
+	      <span class="input-group-btn">
+	        <button class="btn btn-default" type="button" ng-disabled="dol.loading" ng-click="dol.searchDol()">Go!</button>
+	      </span>
+	    </div>
+	</div>
+
+	</div>
+	
+	<br/>
+	<div class="row" ng-show="!dol.loading">
+		<select data-style="btn-primary" class="form-control placeholder" ng-model="country" ng-options="country.name for country in dol.countries">
+			   <option value="">Select All State</option>
+
+		</select>
+		
+	</div>
+	<br/>
+	 
+	<div class="row" ng-repeat="record in dol.RECORDS | filter:country.name">
+
+		 <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span ng-bind="record.country.name | uppercase"></span>&nbsp;&nbsp;<span class="badge" ng-bind="record.caseData.length"></span></h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+							<thead>
+				      			<tr>
+							        <th>
+							        	Case Number
+							        </th> 
+							        <th>
+							        	Company
+							        </th> 
+							        <th>
+							        	Position Title
+							        </th> 
+							         <th>
+							        	Case Details
+							        </th>
+							    </tr>
+							 </thead>
+							<tr>
+								<td>
+									<input type="text" ng-model="company" placeholder="Search"/>
+								</td>
+
+							</tr>
+							<tr ng-repeat="row in record.caseData | filter:company:row[1]">
+							    	<td>{{row[1]}}</td>
+							    	<td>{{row[5]}}</td>
+							    	<td>{{row[8]}}</td>
+							    	<td><a target ='_blank' href='https://icert.doleta.gov/index.cfm?event=ehLCJRExternal.dspCert&doc_id=3&visa_class_id=6&id={{row[0]}}'>view details<a></td>
+							</tr>
+						</table>
+                    </div>
+                </div>
+	</div>
+</div>
+<div class="container">
+	<div ng-show='dol.loading' class="loading-overlay">
+	                <div class="loading-graphic">
+	                    <div class="row"><div class="square one"></div> <div class="square two"></div><div class="square three"></div></div>
+	                    <div class="row"><div class="square eight"></div> <div class="square nine"></div><div class="square four"></div></div>
+	                    <div class="row"><div class="square seven"></div> <div class="square six"></div><div class="square five"></div></div>
+	                    <label class="ucase">Loading...</label>
+	                </div>
+	</div>	
+</div>
